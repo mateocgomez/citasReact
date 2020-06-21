@@ -1,15 +1,30 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import Formulario from "./components/Formulario";
 import Cita from "./components/Cita";
+import PropTypes from "prop-types";
 function App() {
+  //Citas en localStorage
+  let citasIniciales = JSON.parse(localStorage.getItem("citas"));
+  if (!citasIniciales) {
+    citasIniciales = [];
+  }
   //Arreglo de citas
-  const [citas, guardarCitas] = useState([]);
+  const [citas, guardarCitas] = useState([citasIniciales]);
 
   //Funcion que tome las citas actualies y agregue la nueva
   const crearCita = (cita) => {
     guardarCitas([...citas, cita]);
   };
 
+  //UseEffect para realizar ciertas operaciones cuando el state cambia
+  useEffect(() => {
+    let citasIniciales = JSON.parse(localStorage.getItem("citas"));
+    if (citasIniciales) {
+      localStorage.setItem("citas", JSON.stringify(citas));
+    } else {
+      localStorage.setItem("citas", JSON.stringify([]));
+    }
+  }, [citas]);
   //Funcion que elimina citas por su id
   const eliminarCita = (id) => {
     const nuevasCitas = citas.filter((cita) => cita.id !== id);
@@ -41,5 +56,7 @@ function App() {
     </Fragment>
   );
 }
-
+Formulario.propTypes = {
+  crearCita: PropTypes.func.isRequired,
+};
 export default App;

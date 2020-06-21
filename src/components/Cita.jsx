@@ -1,5 +1,5 @@
 import React from "react";
-
+import PropTypes from "prop-types";
 const Cita = ({ cita, eliminarCita }) => {
   const { mascota, propietario, fecha, hora, sintomas } = cita;
   return (
@@ -23,14 +23,15 @@ const Cita = ({ cita, eliminarCita }) => {
       </p>
       <button
         className="button eliminar u-full-width"
-        onClick={() => 
-          eliminarCita(cita.id)
-        }
+        onClick={() => eliminarCita(cita.id)}
       >
         Eliminar &times;
       </button>
     </div>
   );
 };
-
+Cita.proTypes = {
+  cita: PropTypes.object.isRequired,
+  eliminarCita: PropTypes.func.isRequired,
+};
 export default Cita;
